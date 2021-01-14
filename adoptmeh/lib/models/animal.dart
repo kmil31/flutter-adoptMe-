@@ -8,6 +8,7 @@ class Animal {
   String gender;
   String condition;
   String description;
+  String url;
 
   Animal(
       {this.location,
@@ -18,5 +19,6 @@ class Animal {
       this.description,
       this.gender,
       this.owner,
-      this.age});
+      this.age,
+      this.url});
 }

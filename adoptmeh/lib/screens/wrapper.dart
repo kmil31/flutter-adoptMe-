@@ -1,5 +1,4 @@
 import 'package:adoptmeh/models/user.dart';
-import 'package:adoptmeh/screens/adibscreen/second.dart';
 import 'package:adoptmeh/screens/authenticate/authenticate.dart';
 import 'package:adoptmeh/screens/home/home.dart';
 import 'package:flutter/material.dart';

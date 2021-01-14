@@ -25,11 +25,13 @@ class _SignInState extends State<SignIn> {
         ? Loading()
         : Scaffold(
             // load screen if true, else return scaffold
+
             appBar: AppBar(
               title: Text("Sign in to Adopt Me!"),
-              backgroundColor: Colors.teal[400],
+              backgroundColor: Color(0xff455a64),
               actions: <Widget>[
                 FlatButton.icon(
+                  color: Color(0xfffdd835),
                   icon: Icon(Icons.person),
                   label: Text('Register'),
                   onPressed: () {
@@ -47,68 +49,75 @@ class _SignInState extends State<SignIn> {
                 gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
-                    colors: [Colors.blueGrey, Colors.lightBlueAccent]),
+                    colors: [Color(0xff607d8b), Colors.lightBlueAccent]),
               ),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 80.0),
-                    Image.asset('assets/fox.png'),
-                    TextFormField(
-                      decoration: textboxdecoration.copyWith(hintText: "Email"),
-                      validator: (value) =>
-                          value.isEmpty ? 'Enter an email' : null,
-                      onChanged: (value) {
-                        email = value;
-                      },
-                    ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration:
-                          textboxdecoration.copyWith(hintText: "Password"),
-                      obscureText: true,
-                      validator: (value) => value.length < 6
-                          ? 'Password must be 6 digits minimum'
-                          : null,
-                      onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
-                      },
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    RaisedButton(
-                      color: Colors.pink[400],
-                      child: Text(
-                        "Sign In",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          setState(() => loading = true);
+                child: ListView(
+                  children: [
+                    Column(
+                      children: <Widget>[
+                        SizedBox(height: 80.0),
+                        Image.asset('assets/fox.png'),
+                        TextFormField(
+                          decoration:
+                              textboxdecoration.copyWith(hintText: "Email"),
+                          validator: (value) =>
+                              value.isEmpty ? 'Enter an email' : null,
+                          onChanged: (value) {
+                            email = value;
+                          },
+                        ),
+                        SizedBox(height: 20.0),
+                        TextFormField(
+                          decoration:
+                              textboxdecoration.copyWith(hintText: "Password"),
+                          obscureText: true,
+                          validator: (value) => value.length < 6
+                              ? 'Password must be 6 digits minimum'
+                              : null,
+                          onChanged: (value) {
+                            setState(() {
+                              password = value;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        RaisedButton(
+                          color: Colors.pink[400],
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() => loading = true);
 
-                          dynamic result =
-                              await _auth.signInEmailPW(email, password);
-                          if (result == null) {
-                            setState(() => loading = false);
-                            setState(() => error = "Error Signing In");
-                          }
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 80.0,
-                    ),
-                    Text(
-                      error,
-                      style: TextStyle(
-                        color: Colors.red[400],
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                              dynamic result =
+                                  await _auth.signInEmailPW(email, password);
+
+                              if (result == null) {
+                                setState(() => loading = false);
+
+                                setState(() => error = "Error Signing In");
+                              }
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: 80.0,
+                        ),
+                        Text(
+                          error,
+                          style: TextStyle(
+                            color: Colors.red[400],
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

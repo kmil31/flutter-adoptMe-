@@ -1,15 +1,27 @@
 import 'package:adoptmeh/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // This file handles all authenticate services in one place.
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection("users");
 
   //create a function that stores a userobject uid.
 
   UserModel _userFromFirebase(User user) {
     return user != null ? UserModel(uid: user.uid) : null;
   }
+
+  String getuid() {
+    final User user = _auth.currentUser;
+    final uid = user.uid;
+    return uid.toString();
+  }
+
+
 
   //authchange user stream
   Stream<UserModel> get user {

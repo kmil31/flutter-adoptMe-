@@ -1,24 +1,56 @@
+import 'package:adoptmeh/services/firestoreoperations.dart';
+import 'package:adoptmeh/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:adoptmeh/models/animal.dart';
 
-class AnimalDetails extends StatelessWidget {
+class AnimalDetails extends StatefulWidget {
   final Animal animal;
   AnimalDetails({this.animal});
+
+  @override
+  _AnimalDetailsState createState() => _AnimalDetailsState();
+}
+
+class _AnimalDetailsState extends State<AnimalDetails> {
+  Adopt adopt = new Adopt();
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Adopt Me?", textAlign: TextAlign.center),
+          content: new Text("Will you adopt ${widget.animal.name}?"),
+          actions: <Widget>[
+            RaisedButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            RaisedButton(
+              child: new Text("Adopt Me!"),
+              onPressed: () {
+                adopt.updateAdoption(true, widget.animal.name);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       /// making app bar of first page
       appBar: AppBar(
-        backgroundColor: Color(0xFF23252E),
-        
+        backgroundColor: Color(0xff455a64),
         title: Text("Adopt Me"),
         centerTitle: true,
         actions: [
-          Icon(
-            Icons.search,
-            size: 30,
-          ),
           SizedBox(
             width: 10,
           )
@@ -37,7 +69,7 @@ class AnimalDetails extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10),
               child: Text(
-                animal.species+" "+animal.name,
+                widget.animal.species + " " + widget.animal.name,
                 style: TextStyle(
                     color: Colors.blueGrey,
                     fontSize: 18,
@@ -47,8 +79,8 @@ class AnimalDetails extends StatelessWidget {
             Container(
               height: size.height * 0.25,
               width: size.width,
-              child: Image.asset(
-                "assets/img.jpg",
+              child: Image.network(
+                widget.animal.url,
                 fit: BoxFit.cover,
               ),
             ),
@@ -64,31 +96,31 @@ class AnimalDetails extends StatelessWidget {
                 ),
                 BodyText(
                   text1: "Owner: ",
-                  text2: animal.owner,
+                  text2: widget.animal.owner,
                 ),
                 BodyText(
                   text1: "Species: ",
-                  text2: animal.species,
+                  text2: widget.animal.species,
                 ),
                 BodyText(
                   text1: "Location: ",
-                  text2: animal.location,
+                  text2: widget.animal.location,
                 ),
                 BodyText(
                   text1: "Age: ",
-                  text2: animal.age,
+                  text2: widget.animal.age,
                 ),
                 BodyText(
-                  text1: "Jantina: ",
-                  text2: animal.gender,
+                  text1: "Gender: ",
+                  text2: widget.animal.gender,
                 ),
                 BodyText(
                   text1: "Condition: ",
-                  text2: animal.condition,
-                ), 
-                 BodyText(
+                  text2: widget.animal.condition,
+                ),
+                BodyText(
                   text1: "Is it Adopted?: ",
-                  text2: animal.adopted.toString(),
+                  text2: widget.animal.adopted.toString(),
                 ),
                 // BodyText(text1: "Description: ",text2:"This hedgehog cannot dance, pls adopt it so i can find another hedgehog( that can dane obviously) while not making it jealous"),
                 Padding(
@@ -108,7 +140,7 @@ class AnimalDetails extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Text(
-                            animal.description,
+                            widget.animal.description,
                             style: TextStyle(color: Colors.grey, fontSize: 16),
                             textAlign: TextAlign.justify,
                           ),
@@ -126,25 +158,35 @@ class AnimalDetails extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                          child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(2)),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          child: GestureDetector(
+                        onTap: () {
+                          print("Cancel");
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.red.withOpacity(0.9),
+                              borderRadius: BorderRadius.circular(2)),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
                         ),
                       )),
                       Expanded(
                           child: InkWell(
-                       
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Colors.redAccent.withOpacity(0.7),
-                              borderRadius: BorderRadius.circular(2)),
-                          child: Text("Apply Now"),
+                        child: GestureDetector(
+                          onTap: () {
+                            _showDialog();
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.redAccent.withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(2)),
+                            child: Text("Adopt Now"),
+                          ),
                         ),
                       )),
                     ],

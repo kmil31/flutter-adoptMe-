@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: ThemeData(
-          textTheme: GoogleFonts.quicksandTextTheme(
+          textTheme: GoogleFonts.robotoTextTheme(
             Theme.of(context).textTheme,
           ),
         ),

@@ -1,11 +1,12 @@
 import 'package:adoptmeh/services/auth.dart';
-import 'package:adoptmeh/shared/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:adoptmeh/services/firestoreoperations.dart';
 import 'package:flutter/material.dart';
 import 'package:adoptmeh/models/animal.dart';
 import 'package:adoptmeh/services/database.dart';
 import 'package:provider/provider.dart';
 import 'animal_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'createadoption.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,6 +15,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection("users");
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +26,22 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         backgroundColor: Colors.brown[50],
         appBar: AppBar(
-          title: Text("Adopt Me!"),
-          backgroundColor: Colors.brown[300],
+          title: Text("Hello!"),
+          backgroundColor: Color(0xff455a64),
           elevation: 5.0,
           actions: <Widget>[
+            FlatButton(
+              child: Text("Testing"),
+              onPressed: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => createAdoption(),
+                    ));
+              },
+            ),
             FlatButton.icon(
+              color: Color(0xfffdd835),
               icon: Icon(Icons.person),
               label: Text("Logout"),
               onPressed: () async {
