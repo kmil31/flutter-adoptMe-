@@ -5,7 +5,6 @@ import 'package:adoptmeh/models/animal.dart';
 import 'package:adoptmeh/services/database.dart';
 import 'package:provider/provider.dart';
 import 'animal_list.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'createadoption.dart';
 
 class Home extends StatefulWidget {
@@ -15,9 +14,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
-  final CollectionReference userCollection =
-      FirebaseFirestore.instance.collection("users");
+  Adopt _adopt = Adopt();
 
+  String username = "";
+
+  _HomeState() {
+    _adopt.getNameFromFirestore().then((val) => setState(() {
+          username = val;
+        }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +31,12 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         backgroundColor: Colors.brown[50],
         appBar: AppBar(
-          title: Text("Hello!"),
+          title: Text("Hello $username!"),
           backgroundColor: Color(0xff455a64),
           elevation: 5.0,
           actions: <Widget>[
             FlatButton(
-              child: Text("Testing"),
+              child: Text("Create an Adoption"),
               onPressed: () async {
                 Navigator.push(
                     context,

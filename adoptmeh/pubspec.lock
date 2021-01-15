@@ -336,6 +336,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0-nullsafety.1"
+  states_rebuilder:
+    dependency: "direct main"
+    description:
+      name: states_rebuilder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.0"
   stream_channel:
     dependency: transitive
     description:

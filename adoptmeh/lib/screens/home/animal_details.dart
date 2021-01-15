@@ -1,5 +1,4 @@
 import 'package:adoptmeh/services/firestoreoperations.dart';
-import 'package:adoptmeh/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:adoptmeh/models/animal.dart';
 
@@ -14,7 +13,48 @@ class AnimalDetails extends StatefulWidget {
 class _AnimalDetailsState extends State<AnimalDetails> {
   Adopt adopt = new Adopt();
 
-  void _showDialog() {
+  void _errorDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Error!"),
+              content: Text(
+                  'This animal has already been adopted by ${widget.animal.owner}'),
+              actions: <Widget>[
+                RaisedButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                )
+              ]);
+        });
+  }
+
+  void _successDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Success!"),
+              content: Text('You have adopted ${widget.animal.name}'),
+              actions: <Widget>[
+                RaisedButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    
+                  },
+                )
+              ]);
+        });
+  }
+
+  void _adoptDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -31,8 +71,17 @@ class _AnimalDetailsState extends State<AnimalDetails> {
             RaisedButton(
               child: new Text("Adopt Me!"),
               onPressed: () {
-                adopt.updateAdoption(true, widget.animal.name);
-                Navigator.of(context).pop();
+                try {
+                  if (widget.animal.adopted == false) {
+                    adopt.updateAdoption(true, widget.animal.name);
+
+                    _successDialog();
+                  } else {
+                    _errorDialog();
+                  }
+                } catch (e) {
+                  print(e);
+                }
               },
             ),
           ],
@@ -44,6 +93,7 @@ class _AnimalDetailsState extends State<AnimalDetails> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       /// making app bar of first page
       appBar: AppBar(
@@ -51,9 +101,12 @@ class _AnimalDetailsState extends State<AnimalDetails> {
         title: Text("Adopt Me"),
         centerTitle: true,
         actions: [
-          SizedBox(
-            width: 10,
-          )
+          FlatButton(
+            child: Text("Reset Adoption"),
+            onPressed: () async {
+              adopt.resetAdoption(widget.animal.name);
+            },
+          ),
         ],
       ),
 
@@ -177,8 +230,8 @@ class _AnimalDetailsState extends State<AnimalDetails> {
                       Expanded(
                           child: InkWell(
                         child: GestureDetector(
-                          onTap: () {
-                            _showDialog();
+                          onTap: ()  {
+                             _adoptDialog();
                           },
                           child: Container(
                             alignment: Alignment.center,

@@ -51,7 +51,8 @@ Our mobile application is designed to help users in the local area to adopt cute
 **Firebase plugins and packages**
 https://firebase.flutter.dev/
 **Loading animations and state rebuilders**
-https://pub.dev/
+
+https://pub.dev/packages/loading_animations
 **Tutorials and Explanation (Credits to thenetninja!)**
 https://www.youtube.com/watch?v=sfA3NWDBPZ4&list=PL4cUxeGkcC9j--TKIdkb3ISfRbJeJYQwC
 **Firestore CRUD operations**
