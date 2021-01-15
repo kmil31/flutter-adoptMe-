@@ -36,14 +36,14 @@ Our mobile application is designed to help users in the local area to adopt cute
 
 
 
-![Screen Routing Diagram](Screen Routing Diagram.png)
+![Screen Routing Diagram](/Screen Routing Diagram.png)
 
 
 # Sequence Diagram
 
 
 
-![Sequence Diagram](Sequence Diagram.jpg)
+![Sequence Diagram](/Sequence Diagram.jpg)
 
 
 # References
